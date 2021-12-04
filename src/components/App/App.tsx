@@ -37,8 +37,8 @@ const Paragraph = styled.p`
 const Link = styled.a`
   color: #61dafb;
   text-decoration: none;
-  padding-bottom: 2px;
-  border-bottom: solid 10px;
+  padding-bottom: 4px;
+  border-bottom: solid 4px;
   border-color: #61dafb;
 `;
 
