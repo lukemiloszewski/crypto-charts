@@ -37,8 +37,8 @@ const Paragraph = styled.p`
 const Link = styled.a`
   color: #61dafb;
   text-decoration: none;
-  padding-bottom: 4px;
-  border-bottom: solid 4px;
+  padding-bottom: 0.5rem;
+  border-bottom: solid 0.25rem;
   border-color: #61dafb;
 `;
 
@@ -49,8 +49,7 @@ export function App() {
         <Image src={logo} alt="logo" />
         <Paragraph>Nothing Has Changed!</Paragraph>
         <Link
-          href="https://reactjs.org"
-          target="_blank"
+          href="https://github.com/lukemiloszewski"
           rel="noopener noreferrer"
         >
           by luke miloszewski
