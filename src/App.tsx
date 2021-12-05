@@ -7,7 +7,7 @@ export function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/btc" element={<Bitcoin />} />
+      <Route path="/bitcoin" element={<Bitcoin />} />
     </Routes>
   );
 }

@@ -2,10 +2,10 @@ import { LinePath } from "@visx/shape";
 
 interface Props {
   data: any;
-  x: number;
-  y: number;
-  yText: number;
-  label: number;
+  x: any;
+  y: any;
+  yText: string;
+  label: string;
 }
 
 export function MaxPrice(props: Props) {

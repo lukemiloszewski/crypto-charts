@@ -33,7 +33,7 @@ export function Home() {
           to convince you, sorry."
         </Paragraph>
         <Paragraph>
-          <StyledLink to="/btc">Price Chart</StyledLink>
+          <StyledLink to="/bitcoin">Price Chart</StyledLink>
         </Paragraph>
       </TextContainer>
     </Container>
