@@ -23,7 +23,7 @@ export function NavBar() {
         to="/bitcoin"
         style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
       >
-        Charts
+        Chart
       </NavLink>
     </>
   );
