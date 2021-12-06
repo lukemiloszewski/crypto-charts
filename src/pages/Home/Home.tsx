@@ -1,29 +1,13 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
 
-import { Container, Paragraph, TextContainer } from "@components";
-
-const StyledLink = styled(NavLink)`
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-`;
+import { Container, NavBar, Paragraph, TextContainer } from "@components";
 
 export function Home() {
   return (
     <Container>
       <TextContainer>
-        <Paragraph>
-          <StyledLink
-            to="/"
-          >
-            Home
-          </StyledLink>
-          &nbsp;
-          <StyledLink to="/bitcoin" className="selected">
-            Charts
-          </StyledLink>
-        </Paragraph>
+        <NavBar></NavBar>
+        <Paragraph></Paragraph>
         <Paragraph color={"white"} isBold={true}>
           Bitcoin: A Peer-to-Peer Electronic Cash System
         </Paragraph>

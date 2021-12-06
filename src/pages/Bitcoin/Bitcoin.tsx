@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import { withScreenSize } from "@visx/responsive";
-import { Chart, Container } from "@components";
+import {
+  Chart,
+  Container,
+  NavBar,
+  Paragraph,
+  TextContainer,
+} from "@components";
 
 export function RawBitcoin() {
   // const [data, setData] = useState({});
@@ -16,6 +22,12 @@ export function RawBitcoin() {
 
   return (
     <Container>
+      <TextContainer>
+        <NavBar></NavBar>
+        <Paragraph color={"white"} isBold={true}>
+          Bitcoin: 30-Day Closing Price
+        </Paragraph>
+      </TextContainer>
       <Chart width={1000} height={500} />;
     </Container>
   );
