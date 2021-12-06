@@ -1,39 +1,53 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container, Paragraph, TextContainer } from "@components";
 
-const StyledLink = styled(Link)`
-  color: #f2a900;
-  font-weight: bold;
+const StyledLink = styled(NavLink)`
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
 `;
 
 export function Home() {
   return (
     <Container>
       <TextContainer>
+        <Paragraph>
+          <StyledLink
+            to="/"
+          >
+            Home
+          </StyledLink>
+          &nbsp;
+          <StyledLink to="/bitcoin" className="selected">
+            Charts
+          </StyledLink>
+        </Paragraph>
         <Paragraph color={"white"} isBold={true}>
-          What is Bitcoin?
+          Bitcoin: A Peer-to-Peer Electronic Cash System
         </Paragraph>
         <Paragraph>
-          Bitcoin is a decentralised digital currency that does not rely on
-          third-party institutions. Bitcoin is built on a peer-to-peer network
-          that is used to validate transactions. This network timestamps
-          transactions by hashing them into an ongoing chain following a
-          proof-of-work mechanism. Through proof-of-work, every transaction
-          needs to be hashed and every hash needs to be validated by a majority
-          of nodes within the network. If successful, that hash will be appended
-          to the longest chain. This provides a consensus mechanism that
-          prevents records being ultered by bad actors without a controlling
-          stake in the network.
+          A purely peer-to-peer version of electronic cash would allow online
+          payments to be sent directly from one party to another without going
+          through a financial institution. Digital signatures provide part of
+          the solution, but the main benefits are lost if a trusted third party
+          is still required to prevent double-spending. We propose a solution to
+          the double-spending problem using a peer-to-peer network. The network
+          timestamps transactions by hashing them into an ongoing chain of
+          hash-based proof-of-work, forming a record that cannot be changed
+          without redoing the proof-of-work. The longest chain not only serves
+          as proof of the sequence of events witnessed, but proof that it came
+          from the largest pool of CPU power. As long as a majority of CPU power
+          is controlled by nodes that are not cooperating to attack the network,
+          they'll generate the longest chain and outpace attackers. The network
+          itself requires minimal structure. Messages are broadcast on a best
+          effort basis, and nodes can leave and rejoin the network at will,
+          accepting the longest proof-of-work chain as proof of what happened
+          while they were gone.
         </Paragraph>
-        <Paragraph isItalic={true}>
-          "If you don't believe it or don't get it, I don't have the time to try
-          to convince you, sorry."
-        </Paragraph>
-        <Paragraph>
-          <StyledLink to="/bitcoin">Price Chart</StyledLink>
+        <Paragraph isItalic={true} color={"#f2a900"}>
+          Satoshi Nakamoto
         </Paragraph>
       </TextContainer>
     </Container>

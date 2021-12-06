@@ -1,4 +1,4 @@
-import { Chart } from "./Chart/Chart";
+import Chart from "./Chart/Chart";
 import { Container } from "./Container/Container";
 import { HoverLine } from "./HoverLine/HoverLine";
 import { MaxPrice } from "./MaxPrice/MaxPrice";

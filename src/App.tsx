@@ -8,6 +8,7 @@ export function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/bitcoin" element={<Bitcoin />} />
+      {/* <Route path="/bitcoin" element={<Chart width={1000} height={500} />} /> */}
     </Routes>
   );
 }

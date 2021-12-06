@@ -1,4 +1,4 @@
-import { Chart } from "@components";
+import {Chart} from "@components";
 import formatPrice from "@utils/formatPrice";
 
 interface Props {
@@ -38,8 +38,7 @@ export function Price(props: Props) {
         </div>
       </div>
       <div>
-        <Chart
-          data={prices}
+        {/* <Chart
           parentWidth={props.width * 0.6}
           parentHeight={props.height * 0.45}
           margin={{
@@ -48,7 +47,7 @@ export function Price(props: Props) {
             right: 0,
             bottom: 45,
           }}
-        />
+        /> */}
       </div>
     </div>
   );
