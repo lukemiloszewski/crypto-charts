@@ -1,1 +1,1 @@
-# Bitcoin Price Chart 
+# Crypto Charts
