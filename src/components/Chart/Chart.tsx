@@ -1,6 +1,5 @@
-import React, { useMemo, useCallback, useState, useEffect } from "react";
+import React, { useMemo, useCallback } from "react";
 import { AreaClosed, Line, Bar, LinePath } from "@visx/shape";
-import appleStock, { AppleStock } from "@visx/mock-data/lib/mocks/appleStock";
 import { curveMonotoneX } from "@visx/curve";
 import { scaleTime, scaleLinear } from "@visx/scale";
 import { PatternLines } from "@visx/pattern";
@@ -16,37 +15,41 @@ import { LinearGradient } from "@visx/gradient";
 import { max, extent, bisector } from "d3-array";
 import { timeFormat } from "d3-time-format";
 
-import dataImport from "../../utils/data";
-
-type TooltipData = AppleStock;
-
-interface BitcoinPriceIndex {
-  bpi: { [dateString: string]: number};
+import jsonResponse from "../../utils/data";
+interface jsonResponseProps {
+  bpi: { [dateString: string]: number };
   disclaimer: string;
   time: {
     updated: string;
     updatedISO: string;
   };
 }
+let response: jsonResponseProps = jsonResponse;
 
-let bitcoinData: BitcoinPriceIndex;
+const bitcoinData = Object.keys(response.bpi).map((k) => ({
+  time: k,
+  price: response.bpi[k],
+}));
 
-const stock = appleStock.slice(800);
+interface BitcoinData {
+  time: string;
+  price: number;
+}
+
+type TooltipData = BitcoinData;
+
 export const accentColor = "#f2a900";
 
-// util
 const formatDate = timeFormat("%b %d, '%y");
+const getDate = (d: BitcoinData) => new Date(d.time);
+const getPrice = (d: BitcoinData) => d.price;
+const bisectDate = bisector<BitcoinData, Date>((d) => new Date(d.time)).left;
 
-// accessors
-const getDate = (d: AppleStock) => new Date(d.date);
-const getStockValue = (d: AppleStock) => d.close;
-const bisectDate = bisector<AppleStock, Date>((d) => new Date(d.date)).left;
-
-export type AreaProps = {
+interface AreaProps {
   width: number;
   height: number;
   margin?: { top: number; right: number; bottom: number; left: number };
-};
+}
 
 function RawChart({
   width,
@@ -58,42 +61,22 @@ function RawChart({
   tooltipTop = 0,
   tooltipLeft = 0,
 }: AreaProps & WithTooltipProvidedProps<TooltipData>) {
-  // const [data, setData] = useState({});
-
-  // useEffect(() => {
-  //   fetch(`https://api.coindesk.com/v1/bpi/historical/close.json`)
-  //     .then((resp) => resp.json())
-  //     .then((json) => {
-  //       setData(json);
-  //     });
-  // }, []);
-
-  bitcoinData = dataImport;
-  // if (!bitcoinData.bpi) return <div>loading...</div>;
-
-  const prices = Object.keys(bitcoinData.bpi).map((k) => ({
-    time: k,
-    price: bitcoinData.bpi[k],
-  }));
-
-  // bounds
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  // scales
   const dateScale = useMemo(
     () =>
       scaleTime({
         range: [margin.left, innerWidth + margin.left],
-        domain: extent(stock, getDate) as [Date, Date],
+        domain: extent(bitcoinData, getDate) as [Date, Date],
       }),
     [innerWidth, margin.left]
   );
-  const stockValueScale = useMemo(
+  const priceScale = useMemo(
     () =>
       scaleLinear({
         range: [innerHeight + margin.top, margin.top],
-        domain: [0, (max(stock, getStockValue) || 0) + innerHeight / 3],
+        domain: [0, (max(bitcoinData, getPrice) || 0) + innerHeight / 3],
         nice: true,
       }),
     [margin.top, innerHeight]
@@ -106,9 +89,9 @@ function RawChart({
     ) => {
       const { x } = localPoint(event) || { x: 0 };
       const x0 = dateScale.invert(x);
-      const index = bisectDate(stock, x0, 1);
-      const d0 = stock[index - 1];
-      const d1 = stock[index];
+      const index = bisectDate(bitcoinData, x0, 1);
+      const d0 = bitcoinData[index - 1];
+      const d1 = bitcoinData[index];
       let d = d0;
       if (d1 && getDate(d1)) {
         d =
@@ -120,20 +103,14 @@ function RawChart({
       showTooltip({
         tooltipData: d,
         tooltipLeft: x,
-        tooltipTop: stockValueScale(getStockValue(d)),
+        tooltipTop: priceScale(getPrice(d)),
       });
     },
-    [showTooltip, stockValueScale, dateScale]
+    [showTooltip, priceScale, dateScale]
   );
 
   return (
-    <div>
-      <div>
-        {/* <pre>{JSON.stringify({ bitcoinData }, null, 2)}</pre> */}
-        <pre>({ prices[0].time }</pre>
-
-      </div>
-      ){" "}
+    <>
       <svg width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#111" rx={14} />
         <LinearGradient
@@ -150,30 +127,30 @@ function RawChart({
           strokeWidth={1}
           orientation={["diagonal"]}
         />
-        <AreaClosed<AppleStock>
-          data={stock}
+        <AreaClosed<BitcoinData>
+          data={bitcoinData}
           x={(d) => dateScale(getDate(d)) ?? 0}
-          y={(d) => stockValueScale(getStockValue(d)) ?? 0}
-          yScale={stockValueScale}
+          y={(d) => priceScale(getPrice(d)) ?? 0}
+          yScale={priceScale}
           strokeWidth={1}
           stroke="url(#background-gradient)"
           fill="url(#background-gradient)"
           curve={curveMonotoneX}
         />
-        <AreaClosed<AppleStock>
-          data={stock}
+        <AreaClosed<BitcoinData>
+          data={bitcoinData}
           x={(d) => dateScale(getDate(d)) ?? 0}
-          y={(d) => stockValueScale(getStockValue(d)) ?? 0}
-          yScale={stockValueScale}
+          y={(d) => priceScale(getPrice(d)) ?? 0}
+          yScale={priceScale}
           strokeWidth={1}
           stroke="url(#diagonal-lines)"
           fill="url(#diagonal-lines)"
           curve={curveMonotoneX}
         />
         <LinePath
-          data={stock}
+          data={bitcoinData}
           x={(d) => dateScale(getDate(d)) ?? 0}
-          y={(d) => stockValueScale(getStockValue(d)) ?? 0}
+          y={(d) => priceScale(getPrice(d)) ?? 0}
           stroke={accentColor}
           strokeOpacity="0.8"
           strokeWidth={2.5}
@@ -233,7 +210,7 @@ function RawChart({
               ...defaultStyles,
             }}
           >
-            {`$${getStockValue(tooltipData)}`}
+            {`$${getPrice(tooltipData)}`}
           </TooltipWithBounds>
           <Tooltip
             top={innerHeight + margin.top - 14}
@@ -249,7 +226,7 @@ function RawChart({
           </Tooltip>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
