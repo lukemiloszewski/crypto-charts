@@ -12,8 +12,10 @@ import {
 import { WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
 import { localPoint } from "@visx/event";
 import { LinearGradient } from "@visx/gradient";
-import { max, extent, bisector } from "d3-array";
-import { timeFormat } from "d3-time-format";
+import { max, extent } from "d3-array";
+
+import { getPrice } from "@utils/priceUtils";
+import { bisectDate, formatDate, getDate } from "@utils/dateUtils";
 
 import jsonResponse from "../../utils/data";
 interface jsonResponseProps {
@@ -39,11 +41,6 @@ interface BitcoinData {
 type TooltipData = BitcoinData;
 
 export const accentColor = "#f2a900";
-
-const formatDate = timeFormat("%b %d, '%y");
-const getDate = (d: BitcoinData) => new Date(d.time);
-const getPrice = (d: BitcoinData) => d.price;
-const bisectDate = bisector<BitcoinData, Date>((d) => new Date(d.time)).left;
 
 interface AreaProps {
   width: number;

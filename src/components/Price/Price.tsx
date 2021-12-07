@@ -1,5 +1,5 @@
-import {Chart} from "@components";
-import formatPrice from "@utils/formatPrice";
+import { Chart } from "@components";
+// import formatPrice from "@utils/formatPrice";
 
 interface Props {
   data: any; // TODO: requires further typing
@@ -30,10 +30,10 @@ export function Price(props: Props) {
         </div>
         <div />
         <div>
-          <div>{formatPrice(currentPrice)}</div>
+          {/* <div>{formatPrice(currentPrice)}</div> */}
           <div>
             {hasIncreased ? "+" : "-"}
-            {formatPrice(diffPrice)}
+            {/* {formatPrice(diffPrice)} */}
           </div>
         </div>
       </div>
