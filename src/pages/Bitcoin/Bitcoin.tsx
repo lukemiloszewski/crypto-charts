@@ -3,13 +3,22 @@ import React, { useEffect, useState } from "react";
 import { withScreenSize } from "@visx/responsive";
 import {
   Chart,
+  ChartContainer,
   Container,
   NavBar,
   Paragraph,
   TextContainer,
 } from "@components";
+import { WithScreenSizeProps } from "@visx/responsive/lib/enhancers/withScreenSize";
 
-export function RawBitcoin() {
+interface Props {
+  screenWidth: number;
+  screenHeight: number;
+}
+
+export function Bitcoin() {
+  // const width = props.screenWidth;
+  // const height = props.screenHeight;
   // const [data, setData] = useState({});
 
   // useEffect(() => {
@@ -28,9 +37,11 @@ export function RawBitcoin() {
           Bitcoin: 30-Day Historical Price
         </Paragraph>
       </TextContainer>
-      <Chart width={1000} height={500} />;
+      <ChartContainer>
+        <Chart width={1000} height={500} />;
+      </ChartContainer>
     </Container>
   );
 }
-const Bitcoin = withScreenSize(RawBitcoin);
-export { Bitcoin };
+// let Bitcoin = withScreenSize(RawBitcoin);
+// export { Bitcoin };
