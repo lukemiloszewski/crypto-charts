@@ -11,18 +11,6 @@ import {
 } from "@components";
 
 export function Bitcoin() {
-  // const width = props.screenWidth;
-  // const height = props.screenHeight;
-  // const [data, setData] = useState({});
-
-  // useEffect(() => {
-  //   fetch(`https://api.coindesk.com/v1/bpi/historical/close.json`)
-  //     .then((resp) => resp.json())
-  //     .then((json) => {
-  //       setData(json);
-  //     });
-  // }, []);
-
   return (
     <Container>
       <TextContainer>
