@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import ParentSize from "@visx/responsive/lib/components/ParentSize";
 
-import { withScreenSize } from "@visx/responsive";
 import {
   Chart,
   ChartContainer,
@@ -9,12 +9,6 @@ import {
   Paragraph,
   TextContainer,
 } from "@components";
-import { WithScreenSizeProps } from "@visx/responsive/lib/enhancers/withScreenSize";
-
-interface Props {
-  screenWidth: number;
-  screenHeight: number;
-}
 
 export function Bitcoin() {
   // const width = props.screenWidth;
@@ -38,10 +32,12 @@ export function Bitcoin() {
         </Paragraph>
       </TextContainer>
       <ChartContainer>
-        <Chart width={1000} height={500} />;
+        <ParentSize debounceTime={10}>
+          {({ width: visWidth, height: visHeight }) => (
+            <Chart width={visWidth} height={visHeight} />
+          )}
+        </ParentSize>
       </ChartContainer>
     </Container>
   );
 }
-// let Bitcoin = withScreenSize(RawBitcoin);
-// export { Bitcoin };
