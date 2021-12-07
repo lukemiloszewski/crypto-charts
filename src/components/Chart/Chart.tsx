@@ -1,10 +1,9 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useState, useEffect } from "react";
 import { AreaClosed, Line, Bar, LinePath } from "@visx/shape";
 import appleStock, { AppleStock } from "@visx/mock-data/lib/mocks/appleStock";
 import { curveMonotoneX } from "@visx/curve";
 import { scaleTime, scaleLinear } from "@visx/scale";
 import { PatternLines } from "@visx/pattern";
-
 import {
   withTooltip,
   Tooltip,
@@ -17,7 +16,20 @@ import { LinearGradient } from "@visx/gradient";
 import { max, extent, bisector } from "d3-array";
 import { timeFormat } from "d3-time-format";
 
+import dataImport from "../../utils/data";
+
 type TooltipData = AppleStock;
+
+interface BitcoinPriceIndex {
+  bpi: { [dateString: string]: number};
+  disclaimer: string;
+  time: {
+    updated: string;
+    updatedISO: string;
+  };
+}
+
+let bitcoinData: BitcoinPriceIndex;
 
 const stock = appleStock.slice(800);
 export const accentColor = "#f2a900";
@@ -46,7 +58,23 @@ function RawChart({
   tooltipTop = 0,
   tooltipLeft = 0,
 }: AreaProps & WithTooltipProvidedProps<TooltipData>) {
-  // if (width < 10) return null;
+  // const [data, setData] = useState({});
+
+  // useEffect(() => {
+  //   fetch(`https://api.coindesk.com/v1/bpi/historical/close.json`)
+  //     .then((resp) => resp.json())
+  //     .then((json) => {
+  //       setData(json);
+  //     });
+  // }, []);
+
+  bitcoinData = dataImport;
+  // if (!bitcoinData.bpi) return <div>loading...</div>;
+
+  const prices = Object.keys(bitcoinData.bpi).map((k) => ({
+    time: k,
+    price: bitcoinData.bpi[k],
+  }));
 
   // bounds
   const innerWidth = width - margin.left - margin.right;
@@ -100,6 +128,12 @@ function RawChart({
 
   return (
     <div>
+      <div>
+        {/* <pre>{JSON.stringify({ bitcoinData }, null, 2)}</pre> */}
+        <pre>({ prices[0].time }</pre>
+
+      </div>
+      ){" "}
       <svg width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#111" rx={14} />
         <LinearGradient
