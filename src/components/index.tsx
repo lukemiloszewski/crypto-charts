@@ -1,6 +1,7 @@
 import { Chart } from "./Chart/Chart";
 import { ChartContainer } from "./ChartContainer/ChartContainer";
 import { Container } from "./Container/Container";
+import { GlobalStyle } from "./GlobalStyle/GlobalStyle";
 import { HoverLine } from "./HoverLine/HoverLine";
 import { MaxPrice } from "./MaxPrice/MaxPrice";
 import { MinPrice } from "./MinPrice/MinPrice";
@@ -14,6 +15,7 @@ export {
   Chart,
   ChartContainer,
   Container,
+  GlobalStyle,
   HoverLine,
   MaxPrice,
   MinPrice,
