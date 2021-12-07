@@ -2,10 +2,8 @@ import React, { useMemo, useCallback } from "react";
 import { AreaClosed, Line, Bar, LinePath } from "@visx/shape";
 import appleStock, { AppleStock } from "@visx/mock-data/lib/mocks/appleStock";
 import { curveMonotoneX } from "@visx/curve";
-import { GridRows, GridColumns } from "@visx/grid";
 import { scaleTime, scaleLinear } from "@visx/scale";
 import { PatternLines } from "@visx/pattern";
-
 import {
   withTooltip,
   Tooltip,
@@ -21,16 +19,7 @@ import { timeFormat } from "d3-time-format";
 type TooltipData = AppleStock;
 
 const stock = appleStock.slice(800);
-export const background = "#3b6978";
-export const background2 = "#204051";
-export const accentColor = "#edffea";
-export const accentColorDark = "#f2a900";
-const tooltipStyles = {
-  ...defaultStyles,
-  background,
-  border: "1px solid white",
-  color: "white",
-};
+export const accentColor = "#f2a900";
 
 // util
 const formatDate = timeFormat("%b %d, '%y");
@@ -114,49 +103,29 @@ export default withTooltip<AreaProps, TooltipData>(
     return (
       <div>
         <svg width={width} height={height}>
-          <rect
-            x={0}
-            y={0}
-            width={width}
-            height={height}
-            fill="#111" // "url(#area-background-gradient)"
-            rx={14}
-          />
-
+          <rect x={0} y={0} width={width} height={height} fill="#111" rx={14} />
           <LinearGradient
-            id="area-background-gradient"
-            from="#f2a900"
-            to="#f2a900"
-            // fromOpacity={0.2}
+            id="background-gradient"
+            from={accentColor}
+            to={accentColor}
             toOpacity={0.1}
           />
           <PatternLines
-            id="area-gradient"
+            id="diagonal-lines"
             height={6}
             width={6}
             stroke="#27273f"
             strokeWidth={1}
             orientation={["diagonal"]}
           />
-          {/* <LinearGradient
-            id="area-background-gradient"
-            from={background}
-            to={background2}
-          />
-          <LinearGradient
-            id="area-gradient"
-            from={accentColor}
-            to={accentColor}
-            toOpacity={0.1}
-          /> */}
           <AreaClosed<AppleStock>
             data={stock}
             x={(d) => dateScale(getDate(d)) ?? 0}
             y={(d) => stockValueScale(getStockValue(d)) ?? 0}
             yScale={stockValueScale}
             strokeWidth={1}
-            stroke="url(#area-background-gradient)"
-            fill="url(#area-background-gradient)"
+            stroke="url(#background-gradient)"
+            fill="url(#background-gradient)"
             curve={curveMonotoneX}
           />
           <AreaClosed<AppleStock>
@@ -165,15 +134,15 @@ export default withTooltip<AreaProps, TooltipData>(
             y={(d) => stockValueScale(getStockValue(d)) ?? 0}
             yScale={stockValueScale}
             strokeWidth={1}
-            stroke="url(#area-gradient)"
-            fill="url(#area-gradient)"
+            stroke="url(#diagonal-lines)"
+            fill="url(#diagonal-lines)"
             curve={curveMonotoneX}
           />
           <LinePath
             data={stock}
             x={(d) => dateScale(getDate(d)) ?? 0}
             y={(d) => stockValueScale(getStockValue(d)) ?? 0}
-            stroke="#f2a900"
+            stroke={accentColor}
             strokeOpacity="0.8"
             strokeWidth={2.5}
           />
@@ -194,7 +163,7 @@ export default withTooltip<AreaProps, TooltipData>(
               <Line
                 from={{ x: tooltipLeft, y: margin.top }}
                 to={{ x: tooltipLeft, y: innerHeight + margin.top }}
-                stroke={accentColorDark}
+                stroke={accentColor}
                 strokeWidth={2}
                 pointerEvents="none"
                 strokeDasharray="5,2"
@@ -214,7 +183,7 @@ export default withTooltip<AreaProps, TooltipData>(
                 cx={tooltipLeft}
                 cy={tooltipTop}
                 r={4}
-                fill={accentColorDark}
+                fill={accentColor}
                 stroke="white"
                 strokeWidth={2}
                 pointerEvents="none"
@@ -228,7 +197,9 @@ export default withTooltip<AreaProps, TooltipData>(
               key={Math.random()}
               top={tooltipTop - 12}
               left={tooltipLeft + 12}
-              style={tooltipStyles}
+              style={{
+                ...defaultStyles,
+              }}
             >
               {`$${getStockValue(tooltipData)}`}
             </TooltipWithBounds>

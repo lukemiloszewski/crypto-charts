@@ -25,7 +25,7 @@ export function RawBitcoin() {
       <TextContainer>
         <NavBar></NavBar>
         <Paragraph color={"white"} isBold={true}>
-          Bitcoin: 30-Day Closing Price
+          Bitcoin: 30-Day Historical Price
         </Paragraph>
       </TextContainer>
       <Chart width={1000} height={500} />;
