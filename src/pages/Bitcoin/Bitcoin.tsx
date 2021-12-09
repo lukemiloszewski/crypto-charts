@@ -1,8 +1,7 @@
-import React from "react";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import React, { Suspense, useEffect, useState } from "react";
 
 import {
-  Chart,
+  BitcoinLoader,
   ChartContainer,
   Container,
   NavBar,
@@ -10,7 +9,44 @@ import {
   TextContainer,
 } from "@components";
 
+interface jsonResponseProps {
+  bpi: { [dateString: string]: number };
+  disclaimer: string;
+  time: {
+    updated: string;
+    updatedISO: string;
+  };
+}
+
 export function Bitcoin() {
+  const [data, setData] = useState({} as jsonResponseProps);
+  // useEffect(() => {
+  //   await fetch(`https://api.coindesk.com/v1/bpi/historical/close.json`)
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error(response.statusText);
+  //       }
+  //       return response.json() as Promise<{ data: jsonResponseProps }>;
+  //     })
+  //     .then((data) => {
+  //       setData(await data.data);
+  //     });
+  // }, []);
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(
+        `https://api.coindesk.com/v1/bpi/historical/close.json`
+      );
+      setData(await response.json());
+    }
+
+    fetchData();
+  }, []);
+
+  if (!data?.bpi) {
+    return <div>HELP...</div>;
+  }
   return (
     <Container>
       <TextContainer>
@@ -20,11 +56,13 @@ export function Bitcoin() {
         </Paragraph>
       </TextContainer>
       <ChartContainer>
-        <ParentSize debounceTime={10}>
-          {({ width: visWidth, height: visHeight }) => (
-            <Chart width={visWidth} height={visHeight} />
-          )}
-        </ParentSize>
+        {data && data?.bpi && data?.disclaimer && data?.time && (
+          <BitcoinLoader
+            bpi={data.bpi}
+            disclaimer={data.disclaimer}
+            time={data.time}
+          />
+        )}
       </ChartContainer>
     </Container>
   );

@@ -1,3 +1,4 @@
+import { BitcoinLoader } from "./BitcoinLoader/BitcoinLoader";
 import { Chart } from "./Chart/Chart";
 import { ChartContainer } from "./ChartContainer/ChartContainer";
 import { Container } from "./Container/Container";
@@ -12,6 +13,7 @@ import { TextContainer } from "./TextContainer/TextContainer";
 import { ToolTip } from "./ToolTip/ToolTip";
 
 export {
+  BitcoinLoader,
   Chart,
   ChartContainer,
   Container,

@@ -17,21 +17,21 @@ import { max, extent } from "d3-array";
 import { getPrice } from "@utils/priceUtils";
 import { bisectDate, formatDate, getDate } from "@utils/dateUtils";
 
-import jsonResponse from "../../utils/data";
-interface jsonResponseProps {
-  bpi: { [dateString: string]: number };
-  disclaimer: string;
-  time: {
-    updated: string;
-    updatedISO: string;
-  };
-}
-let response: jsonResponseProps = jsonResponse;
+// import jsonResponse from "../../utils/data";
+// interface jsonResponseProps {
+//   bpi: { [dateString: string]: number };
+//   disclaimer: string;
+//   time: {
+//     updated: string;
+//     updatedISO: string;
+//   };
+// }
+// let response: jsonResponseProps = jsonResponse;
 
-const bitcoinData = Object.keys(response.bpi).map((k) => ({
-  time: k,
-  price: response.bpi[k],
-}));
+// const bitcoinData = Object.keys(response.bpi).map((k) => ({
+//   time: k,
+//   price: response.bpi[k],
+// }));
 
 interface BitcoinData {
   time: string;
@@ -46,12 +46,14 @@ interface AreaProps {
   width: number;
   height: number;
   margin?: { top: number; right: number; bottom: number; left: number };
+  bitcoinData: BitcoinData[];
 }
 
 function RawChart({
   width,
   height,
   margin = { top: 0, right: 0, bottom: 0, left: 0 },
+  bitcoinData,
   showTooltip,
   hideTooltip,
   tooltipData,
