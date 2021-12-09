@@ -17,22 +17,6 @@ import { max, extent } from "d3-array";
 import { getPrice } from "@utils/priceUtils";
 import { bisectDate, formatDate, getDate } from "@utils/dateUtils";
 
-// import jsonResponse from "../../utils/data";
-// interface jsonResponseProps {
-//   bpi: { [dateString: string]: number };
-//   disclaimer: string;
-//   time: {
-//     updated: string;
-//     updatedISO: string;
-//   };
-// }
-// let response: jsonResponseProps = jsonResponse;
-
-// const bitcoinData = Object.keys(response.bpi).map((k) => ({
-//   time: k,
-//   price: response.bpi[k],
-// }));
-
 interface BitcoinData {
   time: string;
   price: number;
@@ -69,7 +53,7 @@ function RawChart({
         range: [margin.left, innerWidth + margin.left],
         domain: extent(bitcoinData, getDate) as [Date, Date],
       }),
-    [innerWidth, margin.left]
+    [innerWidth, margin.left, bitcoinData]
   );
   const priceScale = useMemo(
     () =>
@@ -78,7 +62,7 @@ function RawChart({
         domain: [0, (max(bitcoinData, getPrice) || 0) + innerHeight / 3],
         nice: true,
       }),
-    [margin.top, innerHeight]
+    [margin.top, innerHeight, bitcoinData]
   );
 
   // tooltip handler
@@ -105,7 +89,7 @@ function RawChart({
         tooltipTop: priceScale(getPrice(d)),
       });
     },
-    [showTooltip, priceScale, dateScale]
+    [showTooltip, priceScale, dateScale, bitcoinData]
   );
 
   return (

@@ -15,10 +15,6 @@ interface BitcoinData {
   price: number;
 }
 
-interface Props {
-  [dateString: string]: number;
-}
-
 export function BitcoinLoader(props: jsonResponseProps) {
   if (!props.bpi) {
     return <div>HELP...</div>;

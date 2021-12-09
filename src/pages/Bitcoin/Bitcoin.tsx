@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import {
   BitcoinLoader,
@@ -20,18 +20,6 @@ interface jsonResponseProps {
 
 export function Bitcoin() {
   const [data, setData] = useState({} as jsonResponseProps);
-  // useEffect(() => {
-  //   await fetch(`https://api.coindesk.com/v1/bpi/historical/close.json`)
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error(response.statusText);
-  //       }
-  //       return response.json() as Promise<{ data: jsonResponseProps }>;
-  //     })
-  //     .then((data) => {
-  //       setData(await data.data);
-  //     });
-  // }, []);
 
   React.useEffect(() => {
     async function fetchData() {

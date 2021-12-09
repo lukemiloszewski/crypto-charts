@@ -1,5 +1,4 @@
 import { Chart } from "@components";
-// import formatPrice from "@utils/formatPrice";
 
 interface Props {
   data: any; // TODO: requires further typing
