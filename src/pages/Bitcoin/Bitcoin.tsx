@@ -44,13 +44,11 @@ export function Bitcoin() {
         </Paragraph>
       </TextContainer>
       <ChartContainer>
-        {data && data?.bpi && data?.disclaimer && data?.time && (
-          <BitcoinLoader
-            bpi={data.bpi}
-            disclaimer={data.disclaimer}
-            time={data.time}
-          />
-        )}
+        <BitcoinLoader
+          bpi={data.bpi}
+          disclaimer={data.disclaimer}
+          time={data.time}
+        />
       </ChartContainer>
     </Container>
   );
