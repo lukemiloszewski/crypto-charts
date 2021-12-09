@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import { Chart } from "@components";
 import { ParentSize } from "@visx/responsive";
 
@@ -15,13 +17,27 @@ interface BitcoinData {
   price: number;
 }
 
-export function BitcoinLoader(props: jsonResponseProps) {
-  if (!props.bpi) {
-    return <div>HELP...</div>;
+export function BitcoinLoader() {
+  const [data, setData] = useState({} as jsonResponseProps);
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(
+        `https://api.coindesk.com/v1/bpi/historical/close.json`
+      );
+      setData(await response.json());
+    }
+
+    fetchData();
+  }, []);
+
+  if (!data?.bpi) {
+    return <div>...</div>;
   }
-  const bitcoinData = Object.keys(props.bpi).map((k) => ({
+
+  const bitcoinData = Object.keys(data.bpi).map((k) => ({
     time: k,
-    price: props.bpi![k],
+    price: data.bpi![k],
   })) as BitcoinData[];
 
   return (
